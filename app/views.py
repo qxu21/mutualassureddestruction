@@ -23,7 +23,10 @@ def login():
     if form.validate_on_submit(): #so this is the backend processor, this'll be fun
         userdb = User.query.filter_by(username=form.username.data).first()
         if userdb and bcrypt.check_password_hash(userdb.password, form.password.data):
-            login_user(user, remember = form.remember_me.data)
+            login_user(userdb, remember = form.remember_me.data)
+        else:
+            flash("Username/password combo invalid!")
+            return redirect(url_for('login'))
     return render_template('login.html',
             form=form)
 
@@ -54,6 +57,11 @@ def register():
             return redirect(url_for('login')) #potential for autologin: call login_user and redirectto games page
     print("rendering form")
     return render_template('register.html', form=form)
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 #so this registers a user loader with flask-login
 @lm.user_loader

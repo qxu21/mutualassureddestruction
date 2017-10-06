@@ -15,8 +15,13 @@
 				<nav>
 					<p><a href="#">About</a></p>
                                         <div id="spacer"></div>
+                                        {% if g.user.is_authenticated %}
+                                        <p><a href="#">Games</a></p>
+                                        <p><a href="{{ url_for('logout') }}">Logout</a></p>
+                                        {% else %}
                                         <p><a href="{{ url_for('login') }}">Log In</a></p>
                                         <p><a href="{{ url_for('register') }}">Register</a></p>
+                                        {% endif %}
 				</nav>
 			</div>
 			{% block content %}{% endblock %}

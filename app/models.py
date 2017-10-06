@@ -35,6 +35,7 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     players = db.relationship('Player', backref='game', lazy=True)
     turn = db.Column(db.Integer)
+    phase = db.Column(db.String(20)) #PLAN THIS ON PAPER
 
 class Player(db.Model):
     id = db.Column(db.Integer, primary_key=True)
