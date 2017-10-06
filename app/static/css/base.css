@@ -17,6 +17,10 @@ nav p {
 		flex: 1;
 }
 
+#spacer {
+    flex: 10;
+}
+
 #masthead {
 		align-self: center;
 		background-color: black;

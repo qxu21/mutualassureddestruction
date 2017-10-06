@@ -4,6 +4,11 @@ from app import app, db, lm, bcrypt
 from .forms import LoginForm, RegisterForm
 from .models import User #i think this imports from within the app
 
+@app.before_request
+def before_request():
+    g.user = current_user
+
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -16,8 +21,9 @@ def login():
     #    return redirect(url_for('index')) #no double logins
     form=LoginForm()
     if form.validate_on_submit(): #so this is the backend processor, this'll be fun
-        session['remember_me'] = form.remember_me.data
-        
+        userdb = User.query.filter_by(username=form.username.data).first()
+        if userdb and bcrypt.check_password_hash(userdb.password, form.password.data):
+            login_user(user, remember = form.remember_me.data)
     return render_template('login.html',
             form=form)
 
@@ -45,7 +51,7 @@ def register():
             newuser = User(username=form.username.data, email=form.email.data, password=bcrypt.generate_password_hash(form.password.data))
             db.session.add(newuser)
             db.session.commit()
-            return redirect(url_for('index'))
+            return redirect(url_for('login')) #potential for autologin: call login_user and redirectto games page
     print("rendering form")
     return render_template('register.html', form=form)
 
