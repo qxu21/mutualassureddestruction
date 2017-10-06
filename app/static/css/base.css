@@ -1,0 +1,33 @@
+nav {
+		display: flex;
+		height: 50px;
+		width: 100%;
+		background-color: #aaaaaa;
+		align-self: center;
+		margin: 10px 0 10px 0;
+}
+
+/*nav ul {
+		flex: 3;
+		display: flex;
+}*/
+
+nav p {
+		text-align: center;
+		flex: 1;
+}
+
+#masthead {
+		align-self: center;
+		background-color: black;
+		width: 100%;
+		padding: 10px 0 10px 0;
+}
+
+
+#masthead h1 {
+		color: red;
+		text-align: center;
+		font-size: 55px;
+}
+

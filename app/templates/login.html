@@ -1,0 +1,23 @@
+<!--the good extensions haha yes-->
+{% extends "base.html" %}
+
+{% block content %}
+<link href="{{ url_for('.static',filename='css/login.css') }}" rel="stylesheet" type="text/css"> 
+<div id="loginbox">
+    <h1>Login</h1>
+    {% with error = get_flashed_messages() %}
+    {% if error %}
+    <h2 id="error">{{ error }}</h2>
+    {% endif %}
+    {% endwith %}
+    <form class="loginform" action="" method="post" name="login">
+         {{ form.hidden_tag() }}
+         <p>
+         Username: {{ form.username(size=30) }}<br>
+         Password: {{ form.password(size=30) }}<br>
+         {{form.remember_me}} Remember Me<br>
+         </p>
+         <input type="submit" value="Login to Console">
+     </form>
+ </div>
+{% endblock %}

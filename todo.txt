@@ -1,0 +1,40 @@
+TODO:
+
+HTML/CSS:
+
+-landing page DONE
+-login page
+-game page
+-spectate page (based off game page)
+
+Javascript:
+-???
+
+Backend:
+-make the login work
+-fill in the spectate table
+-game functionality
+	-realtime chat
+	-db
+	-missile/shield orders
+	-bidaily updates
+
+Future Things:
+-make CSS not bad?
+-allow themes
+
+Ideas:
+-oracle mode: introduce chance into the game
+	-missiles only have a certain chance of hitting
+	-targets only have a certain chance of taking
+	-you are only allowed to attack one random target each turn
+		-either everybody can only be hit by one person, or totally random
+-skynet mode: add an ai
+	-ai might shoot randomly
+	-like actual algorithm or something - like city-states in civ v?
+	-ai takes over players somehow? resistance? what is condition for takeover?
+-doom/chaos mode:
+	-a player is voted out every xth round
+	-a player is randomly eliminated every xth round
+	-super chaos: the voting/elimination is not regular - it happens at random intervals
+-for oracle/doom, some players may be able to predict the randomness

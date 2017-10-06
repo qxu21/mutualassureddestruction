@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block head %}
+<link href="{{ url_for('.static',filename='css/index.css')}}", rel="stylesheet", type="text/css">
+{% endblock %}
+{% block content %}
+<div class="main">
+	<div class="spectate">
+		<h2>Spectate</h2>
+		<table class="spectable">
+			<thead>
+				<tr>
+					<th>Game</th>
+					<th>Player Count</th>
+					<th>Turn Count</th>
+					<th>Score</th>
+					<th>Strikes</th>
+				</tr>
+			</thead>
+			<tbody>
+			<!--so this will be templated in but for now dummy rows-->
+			<tr>
+				<td><p>Game 1</p></td>
+				<td>2 Players</td>
+				<td>Turn 6</td>
+				<td>Player 1: 950<br /> Player 2: 800</td>
+				<td>0 Strikes</td>
+			</tr>
+			<tr>
+				<td>Game 2</td>
+				<td>3 Players</td>
+				<td>Turn 2</td>
+				<td>Player 1: 230<br />Player 2: 50</td>
+				<td>1 Strike</td>
+			</tr>
+			</tbody>
+		</table>
+		<button type="submit" class="newgame">New Game</button>
+	</div>
+	<div class="moreinfo">
+		<h2>Welcome to Mutual Assured Destruction!</h2>
+		<p>This is a turn-based game in which you play a powerful nation vying for dominance. Most nations have the ability to shoot missiles at each other as well as defend each other with shields. Some power types are better at offense, some are better at defense, and others have specialty in communications or intelligence. You'll need allies to win...unless you're not allowed to make any.</p>
+		<h3>The Attack phase lasts from 6 AM Pacific to 6 PM Pacific. The Defense phase lasts from 6 PM Pacific to 6 AM Pacific. All games are currently in the (insert) Phase.</h3>
+	</div>
+</div>
+{% endblock %}
