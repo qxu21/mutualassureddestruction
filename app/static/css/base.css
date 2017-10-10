@@ -1,3 +1,8 @@
+html {
+    background-color: #f2e6e6;
+    
+}
+
 nav {
 		display: flex;
 		height: 50px;
@@ -33,16 +38,17 @@ nav a:active {
 
 #masthead {
 		align-self: center;
-		background-color: black;
+		background-color: #222222;
 		width: 100%;
 		padding: 10px 0 10px 0;
 }
 
 
 #masthead h1 {
-		color: red;
-		text-align: center;
-		font-size: 55px;
+    /*color: #992a1e;*/
+    color: #ba2725;
+    text-align: center;
+    font-size: 55px;
 }
 
 .tables {
@@ -66,6 +72,7 @@ nav a:active {
     display: flex;
     width: 100%;
     flex-direction: column;
+    background-color: #f2e6e6;
 }
 
 button {
@@ -104,4 +111,5 @@ a {
 .tdlink {
     background-color: #ba2725;
     margin: 0;
+    padding: 0;
 }
