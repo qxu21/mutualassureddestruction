@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Turn {{ game.turn }}</h2>
+<h3>{{ game.phase }} Phase</h3>
+{% if g.user.is_authenticated %}
+<a class="redlink redlinkbox" href="{{ url_for('console', gameid = game.id) }}">Enter Console</a>
+{% endif %}
+<table class="tables">
+    {% for player in game.players %}
+    <tr>
+        <td>Player {{ player.id }}</td>
+        <td>{{ player.destruction }}% Destroyed</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{# int'l chat #}
+{% endblock %}

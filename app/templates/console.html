@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block head %}
+<link href="{{ url_for('.static', filename="css/console.css") }}" rel="stylesheet" type="text/css">
+{% endblock %}
+{% block content %}
+<div class=main>
+    <div class="flexone">
+        <h3>Stats</h3>
+        <table class="tables">
+            <tr>
+                <td>Player Name</td>
+                <td>{{ player.id }}</td> {# will be settable name #}
+            </tr>
+            <tr>
+                <td>Power Type</td>
+                <td>{{ player.type }}</td>
+            </tr>
+            <tr>
+                <td>Attack Power</td>
+                <td>{{ player.attackpower }}</td>
+            </tr>
+            <tr>
+                <td>Shield Power</td>
+                <td>{{ player.defensepower }}</td>
+            </tr>
+            <tr>
+                <td>Special Abilities</td>
+                <td>unimplemented</td> {# this will be a list of strings I think? #}
+            </tr>
+        </table>
+    </div>
+    <div class="flexone">
+        {% if game.phase == "Attack" %}
+        <h3>Targets</h3>
+        {% elif game.phase == "Defense" %}
+        <h3>Deploy Shields</h3>
+        {% else %}
+        <h3>Lorem Ipsum</h3>
+        {% endif %}
+        <form class="targetform">
+            <table class="tables">
+                {{ target_form.hidden_tag() }}
+                {% for player, formfield in player_table_target %}
+                <tr>
+                    <td>Player {{ player.id }}</td>
+                    <td>{{ formfield }}</td>
+                </tr> 
+                {% endfor %}
+            </table>
+        </form>
+    </div>
+    <div class="flexone">
+        {#% if game.phase == "Attack" %#}
+        <h3>Fire Missiles</h3>
+        <table class="tables">
+            {{ fire_form.hidden_tag() }}
+            {% for player, formfield in player_table_fire %}
+            <tr>
+                <td>Player {{ player.id }}</td>
+                <td>{{ formfield }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {#% elif game.phase == "Defense" %#}
+        <p>Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet</p>
+        {#% endif %#}
+    </div> 
+</div>
+{% endblock %}

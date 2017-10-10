@@ -1,0 +1,9 @@
+.main {
+		display: inline-flex;
+		width: 100%;
+		flex-wrap: wrap;
+}
+
+.flexone {
+    flex: 1;
+}

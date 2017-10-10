@@ -12,14 +12,14 @@
 		padding: 10px 20px 10px 20px;
 }
 
-.spectable {
+.tables {
 		flex: 1;
 }
-.spectable, .spectable tr, .spectable td, .spectable th {
+.tables, .tables tr, .tables td, .tables th {
 		border: 1px double black;
 }
 
-.spectable td, .spectable th {
+.tables td, .tables th {
 		text-align: center;
 		padding: 5px 5px 5px 5px;
 }

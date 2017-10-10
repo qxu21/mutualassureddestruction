@@ -5,7 +5,9 @@ class User(db.Model):
     username = db.Column(db.String(64), index=True, unique=True)
     password = db.Column(db.String(64))
     email = db.Column(db.String(120), index=True, unique=True)
-    players = db.relationship('Player', backref='user', lazy='dynamic')
+    players = db.relationship('Player', backref='user', lazy=True)
+    #games = db.relationship('Game', backref='user', lazy='dynamic')
+
     def __repr__(self):
         return '<User %r>' % (self.username)
 
@@ -35,12 +37,16 @@ class Game(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     players = db.relationship('Player', backref='game', lazy=True)
     turn = db.Column(db.Integer)
-    phase = db.Column(db.String(20)) #PLAN THIS ON PAPER
+    phase = db.Column(db.String(20))
+
+    def __repr__(self):
+        return '<Game %r>' % (self.id)
 
 class Player(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'))
+    destruction = db.Column(db.Integer) #maybe constrain to >= 100?
     def __repr__(self):
         return '<Player %r>' % (self.id)

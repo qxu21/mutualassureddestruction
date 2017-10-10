@@ -1,10 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
 
-<table class="spectable">
+<table class="tables">
+    <div class="flexbar">
+        <a href="{{ url_for('joingames') }}" class="redlink redlinkbox">Join Games</a>
+        <div class="spacer"></div>
+    </div>
+    {% if games %}
     <thead>
         <tr>
             <th>Game #</th>
+            <th>Turn #</th>
+            <th>Phase</th>
+            <th>Actions completed</th>
         </tr>
     </thead>
+    <tbody>
+        {% for game in games %}
+        <tr>
+            <td>{{ game.id }}</td>
+            <td>{{ game.turn }}</td>
+            <td>{{ game.phase }}</td>
+            <td>unimplemented</td>
+            <td class="tdlink"><a class="redlink" href="{{ url_for('gamepage', gameid = game.id) }}">GO</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    {% else %}
+    <h2>You aren't in any games, go join one!</h2> 
+    {% endif %}
 </table>
+{% endblock %}
