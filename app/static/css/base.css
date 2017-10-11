@@ -13,12 +13,7 @@ nav {
 		margin: 10px 0 10px 0;
 }
 
-/*nav ul {
-		flex: 3;
-		display: flex;
-}*/
-
-nav a {
+nav a, nav p {
     text-align: center;
     flex: 1;
     padding: 0 5px 0 5px;

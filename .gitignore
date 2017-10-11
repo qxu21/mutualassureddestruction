@@ -1,0 +1,6 @@
+# no db commiting
+*.db
+
+# no pyc committing
+*.py[cod]
+__pycache__/
