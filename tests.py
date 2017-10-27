@@ -10,7 +10,7 @@ class Tests(unittest.TestCase):
     def setUp(self):
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir,'test.db')
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/mutualassureddestruction_test'
         self.app = app.test_client()
         db.create_all()
 
@@ -56,11 +56,14 @@ class UserTests(Tests):
         db.session.commit()
 
     def test_join_game(self):
-        self.app.get('/joingame/1')
-        db.session.add(self.testgame)
-        self.assertIsNotNone(Player.query.filter_by(
+        self.app.post('/joingame/1', data=dict(
+                playername = "testplayer1"))
+        db.session.add(self.testgame) #so self.testgame got detached after gc discarded the sqlalchemy session. This is how we get it back
+        player = Player.query.filter_by(
             user_id = self.testuser.id, 
-            game_id = self.testgame.id).first())
+            game_id = self.testgame.id).first()
+        self.assertIsNotNone(player)
+        self.assertEqual(player.name, "testplayer1")
         #assert that player attributes are not null
     
 

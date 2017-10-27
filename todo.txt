@@ -3,23 +3,34 @@ TODO:
 HTML/CSS:
 
 -landing page DONE
--login page
--game page
+-login page DONE
+-game page DONE
+-console page DONE
 -spectate page (based off game page)
+-remove games player is in from joingames page
 
 Javascript:
 -???
 
 Backend:
--make the login work
+-make the login work DONE
 -fill in the spectate table
 -game functionality
 	-realtime chat
-	-db
-	-missile/shield orders
+	-db DONE
+	-missile/shield orders - IN PROGRESS
 	-bidaily updates
 
-Future Things:
+Things that have to be done, but can be delayed until after alpha launch:
+-paginate spectate/joingames pages
+-newgame functionality for everyone-implement limit to halt spam
+-game limit per user
+-captcha and/or email verification for registration
+-possible premium features
+-better aesthetic :P
+
+
+Potential Future Things:
 -make CSS not bad?
 -allow themes
 

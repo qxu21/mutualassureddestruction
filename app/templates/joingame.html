@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="post" action="" name="joingame">
+    <h3>By entering your player name and clicking the Join Game button below, you agree to stay active in this game until it is over or you are eliminated. Failure to do so will lead to suspension of privileges on the site.</h3>
+    {{ form.hidden_tag() }}
+    {{ form.playername(size=30) }}
+    <input class="redlink redlinkbox" type="submit" value="newgame">
+</form>
+{% endblock %}

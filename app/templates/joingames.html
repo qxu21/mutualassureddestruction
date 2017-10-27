@@ -1,13 +1,13 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block head %}
 <link href="{{ url_for('.static', filename='css/joingames.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 {% block content %}
-
+{% if g.user.username == "admin" %}
 <div id="newgamebox">
-    <a id="newgame" class="redlinkbox redlink" href="{{ url_for('index') }}">New Game</a>
+    <a id="newgame" class="redlinkbox redlink" href="{{ url_for('newgame') }}">New Game</a>
 </div>
-
+{% endif %}
 <table class="tables bigtable">
     <thead>
         <tr>
@@ -25,7 +25,7 @@
             <td>{{ game.players.__len__() }}</td>
             <td>{% if players %}
                 {% for player in game.players %}
-                {{ player.user.username }}
+                {{ player.name }}
                 {% endfor %}
                 {% else %}
                 None

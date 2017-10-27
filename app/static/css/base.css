@@ -108,3 +108,8 @@ a {
     margin: 0;
     padding: 0;
 }
+
+.consoleform {
+    flex: 2;
+    display: flex;
+} 

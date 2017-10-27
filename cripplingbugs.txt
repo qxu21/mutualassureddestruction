@@ -1,0 +1,13 @@
+BUG 1: when trying to upgrade the database, an obscure TypeError was thrown, saying "number required instead of string". It seemed to be hanging on sqlalchemy.PrimaryKeyConstraint('id). In reality, I had db.String('500') in my models.py instead of db.String(500). MORAL: when weird errors happen, just give all relevant code a lookover.
+
+BUG 2: not rendering {{ form.hidden_tag() }} makes the form never validate. -_-
+
+BUG 3 (2017-10-26): Today I learned about scope.
+
+foo = “string”
+bar = [0,1,2,3]
+for foo in bar: #OVERWRITES FOO!
+    print(foo) #prints 0,1,2,3
+print(foo) #prints 3, not “string” as I expected
+
+MORAL: as I’ve learnt a few times by now, be careful with scope, and try to not reuse var names.

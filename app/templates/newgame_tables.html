@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method='post' name='newgame' action=''>
+    <table class="tables">
+        <tr>
+            <td>Name</td>
+            <td>{{ form.name(size=30) }}</td>
+        </tr>
+        <tr>
+            <td>Type</td>
+            <td>{{ form.gametype }}</td>
+            {#<td>{% for field in form.gametype %}
+                {{ field.label }}: {{ field }}
+                {% endfor %}
+            </td>#}
+        </tr>
+        {% if g.user.username == "admin" %}
+        <tr>
+            <td>Nojoin</td>
+            <td>{{ form.nojoin }}</td>
+        </tr>
+        {% endif %}
+    </table>
+    <input class="redlink redlinkbox" type="submit" value="New Game">
+{% endblock %}
