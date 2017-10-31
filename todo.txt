@@ -1,6 +1,6 @@
 TODO:
 
-HTML/CSS:
+Client side:
 
 -landing page DONE
 -login page DONE
@@ -9,19 +9,22 @@ HTML/CSS:
 -spectate page (based off game page)
 -remove games player is in from joingames page
 
-Javascript:
--???
 
 Backend:
 -make the login work DONE
 -fill in the spectate table
+-add validators for constrained string forms
+-fix redirects
 -game functionality
 	-realtime chat
 	-db DONE
-	-missile/shield orders - IN PROGRESS
+	-target/missile orders DONE
+	-shield orders NEEDS TESTING
 	-bidaily updates
+-more comprehensive tests: shove weird stuff into the forms and see what happens
 
 Things that have to be done, but can be delayed until after alpha launch:
+-fix the redirects on /newgame
 -paginate spectate/joingames pages
 -newgame functionality for everyone-implement limit to halt spam
 -game limit per user

@@ -49,6 +49,7 @@ class Player(db.Model):
     number = db.Column(db.Integer)
     name = db.Column(db.String(30))
     type = db.Column(db.String(20))
+    committed = db.Column(db.Boolean)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'))
     attackpower = db.Column(db.Integer)

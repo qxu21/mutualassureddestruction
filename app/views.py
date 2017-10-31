@@ -95,13 +95,16 @@ def gamepage(gameid):
 def joingame(gameid):
     game_id = int_404(gameid)
     form = JoinGameForm()
+    if Player.query.filter_by(user_id=current_user.id, game_id=game_id).first():
+        return redirect(url_for('gamepage', gameid = gameid))
     if form.validate_on_submit():
         game = Game.query.get(game_id)
         if Player.query.filter_by(user_id=current_user.id, game_id=game_id).first():
-            return redirect(url_for('game', gameid = game.id))
+            return redirect(url_for('gamepage', gameid = game.id))
         newplayer = Player(
                 number=len(game.players),
                 name = form.playername.data, #scan for obscenities
+                committed = False,
                 user_id=current_user.id,
                 game_id=game_id,
                 type="Power",
@@ -118,12 +121,11 @@ def joingame(gameid):
 @app.route('/newgame', methods=["GET","POST"])
 @login_required
 def newgame():
-    if current_user.username != "admin":
+    if current_user.username not in ("admin", "testuser1"):
         flash("Only the admin can make new games at this point.")
         return redirect(url_for('index'))
     form = NewGameForm()
     if form.validate_on_submit():
-        print('validation!')
         if form.name.data in ("", None):
             name = "unnamed"
         else:
@@ -137,7 +139,7 @@ def newgame():
         db.session.commit()
         if form.nojoin.data == True and current_user.username == "admin":
             return redirect(url_for('joingames'))
-        joingame(newgame.id) #oh boy I hope this works
+        joingame(newgame.id) #oh boy I hope this works UPDATE: surprise surprise it failed
         return redirect(url_for('gamepage', gameid=newgame.id))
     return render_template('newgame.html', form=form)
 
@@ -148,16 +150,14 @@ def console(gameid):
     game_id = int_404(gameid)
     player = Player.query.filter_by(game_id = game_id, user_id = current_user.id).first()
     game = Game.query.get(game_id)
-    if player not in game.players:
-        return redirect(url_for('games'))
-    #oh god why do i have imports *here* is this even legal
+    if player is None or player not in game.players or player.committed == True:
+        return redirect(url_for('gamepage', gameid=gameid))
     from flask_wtf import FlaskForm
-    #from wtforms import IntegerField
     class ConsoleForm(FlaskForm):
         #i need this to create a form for all players dynamically
         #if a bunch of preconfigged stuff should go in here, drop it in forms.py and then inherit from it here
         pass
-    for temp_player in game.players: #this may cause problems if a new player is added while the form is submitted.
+    for temp_player in game.players: #this may cause problems if a new player is added while the form is submitted. UPDATE: that's a nonissue sinece new players are added before console opens
         setattr(ConsoleForm, "target_player_%s" % str(temp_player.id), StringField("target_player_%s" % str(temp_player.id), validators=[IsInteger()]))
         setattr(ConsoleForm, "fire_player_%s" % str(temp_player.id), StringField("fire_player_%s" % str(temp_player.id), validators=[IsInteger()]))
     #if i have to do this again, make it a function
@@ -179,11 +179,6 @@ def console(gameid):
                     fire_dict[int(field.name[-1])] = 0
                 else:
                     fire_dict[int(field.name[-1])] = int(field.data)
-        #for field in form:
-        #    if field.name.startswith("target"):
-        #        target_total += int(field.data)
-        #    elif field.name.startswith("fire"):
-        #        fire_total += int(field.data)
         for value in target_dict.values():
             target_total += value
         for value in fire_dict.values():
@@ -196,8 +191,6 @@ def console(gameid):
             return redirect(url_for('console', gameid=gameid))
         #verify that all attacks were targeted last turn, unless it's turn 1
         for key, value in fire_dict.items():
-            #if field.name == "csrf_token" or int(field.data) in ("0", "", None) or not field.name.startswith("fire"):
-            #    continue #do i have to do this every time
             potential_target = Action.query.filter_by(
                     origin = player.id,
                     dest = key,
@@ -229,6 +222,7 @@ def console(gameid):
                     start_turn = game.turn,
                     end_turn = game.turn + 1,
                     count=value))
+        player.committed = True
         db.session.commit()
         flash("Your orders have been sent to the appropriate departments.")
         return redirect(url_for('gamepage', gameid = game_id))
@@ -253,6 +247,7 @@ def console(gameid):
                     dest=key,
                     count=value))
         #wait, is that all i have to do for defense?!
+        player.committed = True
         db.session.commit()
         return redirect(url_for('gamepage', gameid = game_id))
     target_form_fields = []

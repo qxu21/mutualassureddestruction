@@ -8,7 +8,7 @@ def IsInteger():
             int(field.data)
         except:
             if field.data is not "":
-                raise ValidationError("Please input integers in fields!")
+                raise ValidationError("Integer needed!")
 
     return _IsInteger
 

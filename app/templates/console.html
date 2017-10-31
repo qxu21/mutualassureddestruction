@@ -1,4 +1,19 @@
 {% extends 'base.html' %}
+{% macro render_console_form(player_table) %}
+<table class="tables">
+    {% for player, formfield in player_table %}
+    <tr>
+        <td>{{ player.name }}</td>
+        <td>{{ formfield }}</td>
+        <td>{% for error in formfield.errors %}
+            {{ error }}
+            <br />
+            {% endfor %}
+        </td>
+    </tr> 
+    {% endfor %}
+</table>
+{% endmacro %}
 {% block head %}
 <link href="{{ url_for('.static', filename="css/console.css") }}" rel="stylesheet" type="text/css">
 {% endblock %}
@@ -39,26 +54,12 @@
         {% else %}
         <h3>Lorem Ipsum</h3>
         {% endif %}
-            <table class="tables">
-                {% for player, formfield in player_table_target %}
-                <tr>
-                    <td>{{ player.name }}</td>
-                    <td>{{ formfield }}</td>
-                </tr> 
-                {% endfor %}
-            </table>
+        {{ render_console_form(player_table_target) }}
     </div>
     <div class="flexone">
         {% if game.phase == "Attack" %}
         <h3>Fire Missiles</h3>
-            <table class="tables">
-                {% for player, formfield in player_table_fire %}
-                <tr>
-                    <td>{{ player.name }}</td>
-                    <td>{{ formfield }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+        {{ render_console_form(player_table_fire) }}
         {% elif game.phase == "Defense" %}
         <p>Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet</p>
         {% endif %}

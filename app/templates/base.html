@@ -34,11 +34,13 @@
                         {% endfor %}
                         {% endif %}
                         {% endwith %}
-                        {% if form %}
-                        {% for error in form.errors.values() %}
+                        {#% if form %}
+                        {% for errorlist in form.errors.values() %}
+                        {% for error in errorlist %} { double for loop...:/ }
                         <p class="error">{{ error }}</p>
                         {% endfor %}
-                        {% endif %}
+                        {% endfor %}
+                        {% endif %#}
 			{% block content %}{% endblock %}
 		</div>
 	</body>
