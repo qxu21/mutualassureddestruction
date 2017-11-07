@@ -1,0 +1,7 @@
+UPDATE 1: x___d launched 2 missiles at pleb_game1.
+UPDATE 1: In total, 0 shields were deployed to protect pleb_game1 from x___d.
+UPDATE 1: x___d landed 2 missile strikes on pleb_game1.
+UPDATE 1: admin_game1 launched 2 missiles at x___d.
+UPDATE 1: x___d deployed 2 shields to protect x___d.
+UPDATE 1: In total, 2 shields were deployed to protect x___d from admin_game1.
+UPDATE 1: admin_game1 landed 0 missile strikes on x___d.

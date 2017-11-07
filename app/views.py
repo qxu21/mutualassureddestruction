@@ -1,9 +1,9 @@
-from flask import render_template, flash, redirect, url_for, session, request, g
+from flask import render_template, flash, redirect, url_for, session, request, g, abort
 from flask_login import login_user, logout_user, current_user, login_required
 from flask_wtf import FlaskForm #for the dynamic generation in console()
 from wtforms import IntegerField
 from app import app, db, lm, bcrypt
-from .forms import LoginForm, RegisterForm, NewGameForm, JoinGameForm, StringField, IsInteger
+from .forms import LoginForm, RegisterForm, NewGameForm, JoinGameForm, ComposeMessageForm, StringField, IsInteger
 from .models import User, Player, Game, Action #i think this imports from within the app
 from .helperfunctions import *
 from itertools import islice
@@ -22,7 +22,8 @@ def int_404(p):
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    games = Game.query.all()
+    return render_template('index.html', games=games)
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -143,13 +144,29 @@ def newgame():
         return redirect(url_for('gamepage', gameid=newgame.id))
     return render_template('newgame.html', form=form)
 
+@app.route('/messages/<gameid>', methods=["GET","POST"])
+@login_required
+def messages(gameid):
+    game_id = int_404(gameid)
+    game = Game.query.get(game_id)
+    if game is None:
+        abort(404)
+    player = Player.query.filter_by(user_id = current_user.id, game_id = game_id).first()
+    messages = player.inbox
+    form = ComposeMessageForm()
+    return render_template('messages.html', game=game, player=player, messages=messages, form=form)
+            
+
+
 
 @app.route('/console/<gameid>', methods=["GET","POST"])
 @login_required
 def console(gameid):
     game_id = int_404(gameid)
-    player = Player.query.filter_by(game_id = game_id, user_id = current_user.id).first()
     game = Game.query.get(game_id)
+    if game is None:
+        abort(404)
+    player = Player.query.filter_by(game_id = game_id, user_id = current_user.id).first()
     if player is None or player not in game.players or player.committed == True:
         return redirect(url_for('gamepage', gameid=gameid))
     from flask_wtf import FlaskForm
@@ -183,24 +200,27 @@ def console(gameid):
             target_total += value
         for value in fire_dict.values():
             fire_total += value
-        if target_total >= player.attackpower * 1.5:
+        if target_total > player.attackpower * 1.5:
             flash("You tried to set %s targets but you can only set %s!" % (target_total, player.attackpower * 1.5))
             return redirect(url_for('console', gameid=gameid))
-        if fire_total >= player.attackpower:
+        if fire_total > player.attackpower:
             flash("You tried to fire %s missiles but you can only fire %s!" % (fire_total, player.attackpower))
             return redirect(url_for('console', gameid=gameid))
         #verify that all attacks were targeted last turn, unless it's turn 1
         for key, value in fire_dict.items():
+            player_targeted = Player.query.get(key)
             potential_target = Action.query.filter_by(
-                    origin = player.id,
-                    dest = key,
+                    origin_id = player.id,
+                    dest_id = key,
+                    origin = player,
+                    dest = player_targeted,
                     end_turn = game.turn, #this will have to be made more complex if i ever support targets lasting for several turns
                     type = "target").first() #will have to change if target Actions ever start stacking for whatever reason
-            if game.turn > 1 and potential_target.count < value:
-                flash("You tried to fire %s missiles at %s, but you only set %s targets on them last turn!")
-                return redirect(url_for('console', gameid=gameid))
             if game.turn > 1 and (potential_target == None or potential_target.count <= 0):
-                flash("You tried to fire missiles at %s, but you didn't set any targets on them last turn!")
+                flash("You tried to fire missiles at {}, but you didn't set any targets on them last turn!".format(player_targeted.name))
+                return redirect(url_for('console', gameid=gameid))
+            if game.turn > 1 and potential_target.count < value:
+                flash("You tried to fire {} missiles at {}, but you only set {} targets on them last turn!".format(value, player_targeted, potential_target.count))
                 return redirect(url_for('console', gameid=gameid))
             #this is only for validating, the targets are swept later on
         #now it's time to create some Actions and commit them
@@ -208,8 +228,11 @@ def console(gameid):
             if value is not 0:
                 db.session.add(Action(
                     type="target",
-                    origin=player.id,
-                    dest=key,
+                    game_id=game.id,
+                    origin_id=player.id,
+                    dest_id=key,
+                    origin=player,
+                    dest=Player.query.get(key),
                     start_turn = game.turn,
                     end_turn = game.turn + 1,
                     count=value))
@@ -217,8 +240,11 @@ def console(gameid):
             if value is not 0:
                 db.session.add(Action(
                     type="fire",
-                    origin=player.id,
-                    dest=key,
+                    game_id=game.id,
+                    origin_id=player.id,
+                    dest_id=key,
+                    origin=player,
+                    dest=Player.query.get(key),
                     start_turn = game.turn,
                     end_turn = game.turn + 1,
                     count=value))
@@ -232,19 +258,25 @@ def console(gameid):
         shield_total = 0
         shield_dict = {}
         for field in form:
-            if field.data is "":
-                shield_dict[int(field.name[-1])] = 0
-            else:
-                shield_dict[int(field.name[-1])] = int(field.data)
-        if shield_total >= player.defensepower:
+            if field.name.startswith("target"):
+                if field.data is "":
+                    shield_dict[int(field.name[-1])] = 0
+                else:
+                    shield_dict[int(field.name[-1])] = int(field.data)
+        if shield_total > player.defensepower:
             flash("You tried to use {} shields, but you can only use {}!".format(shield_total, player.defensepower))
             return redirect(url_for('console'))
         for key, value in shield_dict.items():
             if value is not 0:
                 db.session.add(Action(
                     type="shield",
-                    origin=player.id,
-                    dest=key,
+                    game_id=game_id,
+                    origin_id=player.id,
+                    dest_id=key,
+                    origin=player,
+                    dest=Player.query.get(key),
+                    start_turn=game.turn,
+                    end_turn=game.turn + 1,
                     count=value))
         #wait, is that all i have to do for defense?!
         player.committed = True

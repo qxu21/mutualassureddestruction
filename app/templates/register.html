@@ -4,20 +4,23 @@
 <link href="{{ url_for('.static',filename='css/login.css') }}" rel="stylesheet" type="text/css"> 
 <div id="loginbox">
     <h1>Register</h1>
-    {% with flashes = get_flashed_messages() %}
+    {#% with flashes = get_flashed_messages() %}
     {% if flashes %}
     {% for flash in flashes %}
     <h2>{{ flash }}</h2>
     {% endfor %}
     {% endif %}
-    {% endwith %}
+    {% endwith %#}
     <form class="loginform" action="" method="post" name="login">
          {{ form.hidden_tag() }}
-         <p>
-         Email: {{ form.email(size=30) }} <br>
-         Username: {{ form.username(size=30) }}<br>
-         Password: {{ form.password(size=30) }}<br>
-         </p>
+         {% for field in form %}
+         {{ field.label }}: {{ field }} {% for error in field.errors %}{{error}}{% endfor %}
+         {% endfor %}
+         {#<p>
+         Email: {{ form.email(size=30) }} {{ form.username.errors[0] }}<br>
+         Username: {{ form.username(size=30) }} {{ form.username.errors[0] }}<br>
+         Password: {{ form.password(size=30) }} {{ form.password.errors[0] }}<br>
+         </p>#}
          <input type="submit" value="Register">
      </form>
  </div>

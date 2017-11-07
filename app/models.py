@@ -1,5 +1,9 @@
 from app import db
 
+message_table = db.Table("message_table",
+        db.Column("message_id", db.Integer, db.ForeignKey("message.id")),
+        db.Column("player_id", db.Integer, db.ForeignKey("player.id")))
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -55,17 +59,49 @@ class Player(db.Model):
     attackpower = db.Column(db.Integer)
     defensepower = db.Column(db.Integer)
     destruction = db.Column(db.Integer) #maybe constrain to >= 100?
+    inbox = db.relationship("Message",
+            secondary=message_table,
+            back_populates="dests")
+    outbox = db.relationship("Message", back_populates="origin")
     def __repr__(self):
-        return '<Player %r>' % (self.id)
+        return '<Player %r>' % (self.name)
 
-#is this the best way to do this?
 class Action(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String)
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'))
-    origin = db.Column(db.Integer, db.ForeignKey('player.id'))
-    dest = db.Column(db.Integer, db.ForeignKey('player.id'))
+    origin_id = db.Column(db.Integer, db.ForeignKey('player.id'))
+    dest_id = db.Column(db.Integer, db.ForeignKey('player.id'))
+    origin = db.relationship("Player", foreign_keys=origin_id)
+    dest = db.relationship("Player", foreign_keys=dest_id)
     start_turn = db.Column(db.Integer)
     end_turn = db.Column(db.Integer)
     count = db.Column(db.Integer)
-    special = db.Column(db.String(200)) #contains json-dumped dicts, also remove constraint upon next change
+    special = db.Column(db.String) # contains json-dumped dicts
+
+    def __repr__(self):
+        return "Action #{}: \
+                Type: {} \
+                game_id: {} \
+                origin: {} \
+                dest: {} \
+                start_turn: {} \
+                end_turn: {} \
+                count: {}".format(self.id, self.type,self.game_id,self.origin,self.dest,self.start_turn,self.end_turn,self.count)
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    timestamp = db.Column(db.DateTime)
+    subject = db.Column(db.String(50))
+    body = db.Column(db.String)
+    parent_id = db.Column(db.Integer, db.ForeignKey('message.id'))
+    game_id = db.Column(db.Integer, db.ForeignKey('game.id'))
+    origin_id = db.Column(db.Integer, db.ForeignKey('player.id'))
+    parent = db.relationship("Message") # no backrefs, that's not needed yet
+    origin = db.relationship("Player", back_populates="outbox", foreign_keys=origin_id)
+    blind = db.Column(db.Boolean)
+    dests = db.relationship("Player",
+            secondary=message_table,
+            back_populates="inbox")
+    game = db.relationship("Game", backref="messages")
+

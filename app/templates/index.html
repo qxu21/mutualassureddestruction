@@ -6,35 +6,36 @@
 <div class="main">
 	<div class="spectate">
 		<h2>Spectate</h2>
+                {% if not games %}
+                <h3>No games running currently.</h3>
+                {% else %}
 		<table class="tables">
 			<thead>
-				<tr>
-					<th>Game</th>
-					<th>Player Count</th>
-					<th>Turn Count</th>
-					<th>Score</th>
-					<th>Strikes</th>
-				</tr>
+                            <tr>
+                                <th>Game</th>
+                                <th>Player Count</th>
+                                <th>Turn</th>
+                                <th>Destruction</th>
+                            </tr>
 			</thead>
 			<tbody>
 			<!--so this will be templated in but for now dummy rows-->
-			<tr>
-				<td><p>Game 1</p></td>
-				<td>2 Players</td>
-				<td>Turn 6</td>
-				<td>Player 1: 950<br /> Player 2: 800</td>
-				<td>0 Strikes</td>
-			</tr>
-			<tr>
-				<td>Game 2</td>
-				<td>3 Players</td>
-				<td>Turn 2</td>
-				<td>Player 1: 230<br />Player 2: 50</td>
-				<td>1 Strike</td>
-			</tr>
+                        {% for game in games %}
+                            <tr>
+                                <td>Game {{ game.id}} </td>
+                                <td>{{ game.players.__len__() }} Players</td>
+                                <td>Turn {{ game.turn }}: {{ game.phase }} Phase</td>
+                                <td>
+                                    {% for player in game.players %}
+                                    {{ player.name }}: {{ player.destruction }}% Destroyed<br />
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
 			</tbody>
 		</table>
-		<button type="submit" class="newgame">New Game</button>
+                {% endif %}
+                {#<button type="submit" class="newgame">New Game</button>#}
 	</div>
 	<div class="moreinfo">
 		<h2>Welcome to Mutual Assured Destruction!</h2>

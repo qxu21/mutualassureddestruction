@@ -98,6 +98,19 @@ a {
     background-color: #893232;
 }
 
+.bluelink {
+    background-color: #3145C7;
+    text-align: center;
+}
+
+.bluelink:hover {
+    background-color: #5D6BCA;
+}
+
+.bluelink:active {
+    background-color: #22308A;
+}
+
 .flexbar {
     display: flex;
     margin: 10px 0 10px 0;
@@ -113,3 +126,12 @@ a {
     flex: 2;
     display: flex;
 } 
+
+.gamelinkbox {
+    display: flex;
+    padding: 20px 0 20px 0;
+}
+
+.message {
+    display: none;
+}

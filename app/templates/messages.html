@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<form method="post" name="composemessage">
+    {{ form.hidden_tag() }}
+    Destinations: {{ form.dests }} Blind: {{ form.blind }}<br><br>
+    Body:<br>
+    {{ form.body }}<br><br>
+    <input class="redlink redlinkbox" type="submit" value="Send">
+</form>
+{# eventual link to outbox #}
+{% for message in messages %}
+<table>
+    <tr class="messageheader">
+        <td>{{ message.origin.name }}</td>
+        <td>{% if not message.blind %}
+            {% for dest in message.dests %}
+            {{ dest.name }}<br />
+            {% endfor %}
+            {% else %}
+            --- {#change#}
+            {% endif %}
+        </td>
+        <td>{{ message.subject }}</td>
+    </tr>
+    <tr class="message">
+        <td colspan="3">
+            {{ message.body }}
+        </td>
+    </tr>
+</table>
+{% endfor %}
+
+{% endblock %}
+
+

@@ -1,4 +1,7 @@
 <!DOCTYPE HTML>
+{% macro field_render_complete(field, fieldlabel) %}
+{{ fieldlabel }}{{ field }} {% for error in field.errors %}{{error}}{% endfor %}
+{% endmacro %}
 <html>
 	<head>
 		<meta charset="utf-8">

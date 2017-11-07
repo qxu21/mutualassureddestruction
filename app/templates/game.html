@@ -3,11 +3,16 @@
 
 <h2>Turn {{ game.turn }}</h2>
 <h3>{{ game.phase }} Phase</h3>
-{% if player_in_game and not player_in_game.committed and game.phase != "Preliminary" %}
-<a class="redlink redlinkbox" href="{{ url_for('console', gameid = game.id) }}">Enter Console</a>
-{% elif player_in_game and player_in_game.committed %}
-<div class="graybox">Orders Committed</div>
-{% endif %}
+<div class="gamelinkbox">
+    {% if player_in_game %}
+    {% if not player_in_game.committed and game.phase != "Preliminary" %}
+    <a class="redlink redlinkbox" href="{{ url_for('console', gameid = game.id) }}">Enter Console</a>
+    {% elif player_in_game.committed %}
+    <div class="graybox">Orders Committed</div>
+    {% endif %}
+    <a class="bluelink redlinkbox" href="{{ url_for('messages', gameid = game.id) }}">Messages</a> {# class to be rewritten and changed #}
+    {% endif %}
+</div>
 <table class="tables">
     {% for player in game.players %}
     <tr>
@@ -17,5 +22,4 @@
     {% endfor %}
 </table>
 
-{# int'l chat #}
 {% endblock %}

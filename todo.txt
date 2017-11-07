@@ -6,29 +6,40 @@ Client side:
 -login page DONE
 -game page DONE
 -console page DONE
+-fix tables to allow the entire row to be clicked with onClick, use onHover (?)
 -spectate page (based off game page)
 -remove games player is in from joingames page
+-render form errors on register/login pages
+-flash “orders sent to app. departments” after defense as well as offense - generally consolidate defense and offense pages
+-add a little information about each game in the games page
+-render several errors per form field, not just the first
 
 
 Backend:
 -make the login work DONE
--fill in the spectate table
+-fill in the spectate table DONE
+	-let spectate rows link to game pages, which do not need login to view
 -add validators for constrained string forms
 -fix redirects
 -game functionality
-	-realtime chat
+	-realtime chat ABANDONED FOR NOW
+	-message system IN PROGRESS
 	-db DONE
 	-target/missile orders DONE
 	-shield orders NEEDS TESTING
-	-bidaily updates
+	-bidaily updates NEEDS TESTING
+	-special abilities/different powers
 -more comprehensive tests: shove weird stuff into the forms and see what happens
+-test shield commits
+-maybe add a join game button to game pages themselves?
 
 Things that have to be done, but can be delayed until after alpha launch:
 -fix the redirects on /newgame
 -paginate spectate/joingames pages
--newgame functionality for everyone-implement limit to halt spam
+-newgame functionality for everyone-implement limit to halt spam and dead games
 -game limit per user
 -captcha and/or email verification for registration
+-publicly accessible archive - this entails oldgame and oldaction tables, most likely
 -possible premium features
 -better aesthetic :P
 
@@ -36,6 +47,7 @@ Things that have to be done, but can be delayed until after alpha launch:
 Potential Future Things:
 -make CSS not bad?
 -allow themes
+-maybe some ajax
 
 Ideas:
 -oracle mode: introduce chance into the game

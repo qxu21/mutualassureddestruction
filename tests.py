@@ -4,7 +4,7 @@ import os
 
 from config import basedir
 from app import app, db, bcrypt
-from app.models import User, Player, Game
+from app.models import User, Player, Game, Action
 
 class Tests(unittest.TestCase):
     def setUp(self):
@@ -102,6 +102,30 @@ class ConsoleTests(Tests):
         submission2 = self.app.post('/console/1', data=dict(
             fire_player_2="10000"), follow_redirects=True)
         self.assertIn(b'You tried to fire 10000 missiles', submission2.data)
+
+    def test_action_commit(self):
+        submission = self.app.post('/console/1', data=dict(
+            target_player_1="1",
+            target_player_2="1",
+            fire_player_1="1",
+            fire_player_2="1"), follow_redirects=True)
+        self.assertIsNotNone(Action.query.filter_by(
+            type="target",
+            game_id=1,
+            origin=1,
+            dest=1,
+            start_turn=0,
+            end_turn=1,
+            count=1).first())
+        self.assertIsNotNone(Action.query.filter_by(
+            type="fire",
+            game_id=1,
+            origin=1,
+            dest=1,
+            start_turn=0,
+            end_turn=1,
+            count=1).first())
+
 
 
 

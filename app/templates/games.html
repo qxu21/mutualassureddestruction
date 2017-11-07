@@ -22,7 +22,7 @@
             <td>{{ game.turn }}</td>
             <td>{{ game.phase }}</td>
             <td>unimplemented</td>
-            <td class="tdlink"><a class="redlink tdlink" href="{{ url_for('gamepage', gameid = game.id) }}">GO</a></td>
+            <td class="tdlink"><a class="redlink" href="{{ url_for('gamepage', gameid = game.id) }}">GO</a></td>
         </tr>
         {% endfor %}
     </tbody>
