@@ -16,12 +16,24 @@
         </tr>
     </thead>
     <tbody>
-        {% for game in games %}
+        {% for (game, player) in games %}
         <tr>
             <td>{{ game.id }}</td>
             <td>{{ game.turn }}</td>
             <td>{{ game.phase }}</td>
-            <td>unimplemented</td>
+            {% if game.phase == "Preliminary" %}
+            <td style="background-color: gray;">
+                <b>PRELIMINARY</b>
+            </td>
+            {% elif player.committed %}
+            <td style="background-color: green;">
+                <b>COMMITTED</b>
+            </td>
+            {% else %}
+            <td style="background-color: orange;">
+                <b>INCOMPLETE</b>
+            </td>
+            {% endif %}
             <td class="tdlink"><a class="redlink" href="{{ url_for('gamepage', gameid = game.id) }}">GO</a></td>
         </tr>
         {% endfor %}

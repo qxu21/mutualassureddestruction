@@ -13,6 +13,8 @@ Client side:
 -flash “orders sent to app. departments” after defense as well as offense - generally consolidate defense and offense pages
 -add a little information about each game in the games page
 -render several errors per form field, not just the first
+-write tests for malconstructed usernames/emails/passwords/message input
+-find out how to throw form erros without wiping form
 
 
 Backend:

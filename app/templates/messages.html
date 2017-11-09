@@ -1,18 +1,21 @@
 {% extends 'base.html' %}
+{% block head %}
+{% endblock %}
 {% block content %}
 <form method="post" name="composemessage">
     {{ form.hidden_tag() }}
-    Destinations: {{ form.dests }} Blind: {{ form.blind }}<br><br>
+    Destinations: {{ form.dests }}
+    Subject: {{ form.subject }} Blind: {{ form.blind }}<br><br>
     Body:<br>
     {{ form.body }}<br><br>
     <input class="redlink redlinkbox" type="submit" value="Send">
 </form>
 {# eventual link to outbox #}
 {% for message in messages %}
-<table>
+<table class="tables messagetable">
     <tr class="messageheader">
-        <td>{{ message.origin.name }}</td>
-        <td>{% if not message.blind %}
+        <td>From: {{ message.origin.name }}</td>
+        <td>To: {% if not message.blind %}
             {% for dest in message.dests %}
             {{ dest.name }}<br />
             {% endfor %}
@@ -20,7 +23,7 @@
             --- {#change#}
             {% endif %}
         </td>
-        <td>{{ message.subject }}</td>
+        <td>Subject: {{ message.subject }}</td>
     </tr>
     <tr class="message">
         <td colspan="3">
@@ -29,7 +32,7 @@
     </tr>
 </table>
 {% endfor %}
-
+<script type="text/javascript" src="{{ url_for('.static',filename='js/messages.js') }}"></script>
 {% endblock %}
 
 

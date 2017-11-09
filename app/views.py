@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm #for the dynamic generation in console()
 from wtforms import IntegerField
 from app import app, db, lm, bcrypt
 from .forms import LoginForm, RegisterForm, NewGameForm, JoinGameForm, ComposeMessageForm, StringField, IsInteger
-from .models import User, Player, Game, Action #i think this imports from within the app
+from .models import User, Player, Game, Action, Message #i think this imports from within the app
 from .helperfunctions import *
 from itertools import islice
 from datetime import datetime #these should probably go over flask imports
@@ -73,7 +73,7 @@ def logout():
 def games():
     gamelist = []
     for player in current_user.players:
-        gamelist.append(player.game)
+        gamelist.append((player.game, player))
     return render_template('games.html', games = gamelist)
 
 @app.route('/joingames')
@@ -154,6 +154,35 @@ def messages(gameid):
     player = Player.query.filter_by(user_id = current_user.id, game_id = game_id).first()
     messages = player.inbox
     form = ComposeMessageForm()
+    if form.validate_on_submit():
+        destnames_wspace = form.dests.data.split(',')
+        dests = []
+        fail_name = None
+        for x in destnames_wspace:
+            potential_dest_name = x.strip() #strip whitespace
+            potential_dest = Player.query.filter_by(name=potential_dest_name).first()
+            if potential_dest is None:
+                fail_name = potential_dest_name
+            else:
+                dests.append(potential_dest)
+        if fail_name is not None:
+            # redirects may wipe message bodies, so I'm going to deal with this later
+            flash("{} is an invalid destination!".format(fail_name))
+            return render_template('messages.html', game=game, player=player, messages=messages, form=form)
+        message = Message(
+                origin=player,
+                origin_id=player.id,
+                subject=(form.subject.data if form.subject.data not in ("", None) else "No Subject"),
+                game_id=game.id,
+                blind=form.blind.data,
+                game=game,
+                dests=dests,
+                body=form.body.data)
+        db.session.add(message)
+        db.session.commit()
+        flash("Message delivered!")
+        return redirect(url_for("messages", gameid=gameid))
+                
     return render_template('messages.html', game=game, player=player, messages=messages, form=form)
             
 

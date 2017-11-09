@@ -111,6 +111,13 @@ a {
     background-color: #22308A;
 }
 
+.graybox {
+    background-color: gray;
+    text-align: center;
+    padding: 20px 30px 20px 30px;
+    flex: 1;
+}
+
 .flexbar {
     display: flex;
     margin: 10px 0 10px 0;
@@ -133,5 +140,12 @@ a {
 }
 
 .message {
-    display: none;
+    /*display: none;*/
+}
+
+.messagetable {
+    margin: 10px 0 0 0;
+}
+.messageheader:hover {
+    background-color: #bbbbbb;
 }

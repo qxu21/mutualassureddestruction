@@ -34,5 +34,6 @@ class JoinGameForm(FlaskForm):
 
 class ComposeMessageForm(FlaskForm):
     dests = StringField('dests', validators=[DataRequired()]) #TODO: validate playernames
+    subject = StringField('subject')
     body = TextAreaField('body')
     blind = BooleanField('blind', default=False)
