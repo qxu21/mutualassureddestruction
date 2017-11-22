@@ -5,10 +5,12 @@ from wtforms.validators import DataRequired, Email, Length
 def IsInteger():
     def _IsInteger(form, field):
         try:
-            int(field.data)
-        except:
+            intdata = int(field.data)
+            if intdata < 0:
+                raise ValidationError("Positive integer needed!")
+        except ValueError:
             if field.data is not "":
-                raise ValidationError("Integer needed!")
+                raise ValidationError("Positive integer needed!")
 
     return _IsInteger
 
@@ -33,7 +35,7 @@ class JoinGameForm(FlaskForm):
     playername = StringField('name', validators=[DataRequired()])
 
 class ComposeMessageForm(FlaskForm):
-    dests = StringField('dests', validators=[DataRequired()]) #TODO: validate playernames
+    dests = StringField('dests', validators=[DataRequired()]) 
     subject = StringField('subject')
     body = TextAreaField('body')
     blind = BooleanField('blind', default=False)

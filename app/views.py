@@ -116,7 +116,7 @@ def joingame(gameid):
         db.session.add(game)
         db.session.add(newplayer)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('gamepage', gameid=game.id))
     return render_template('joingame.html', form=form)
 
 @app.route('/newgame', methods=["GET","POST"])
@@ -182,8 +182,7 @@ def messages(gameid):
         db.session.commit()
         flash("Message delivered!")
         return redirect(url_for("messages", gameid=gameid))
-                
-    return render_template('messages.html', game=game, player=player, messages=messages, form=form)
+    return render_template('messages.html', game=game, player=player, messages=messages[::-1], form=form)
             
 
 
@@ -237,6 +236,8 @@ def console(gameid):
             return redirect(url_for('console', gameid=gameid))
         #verify that all attacks were targeted last turn, unless it's turn 1
         for key, value in fire_dict.items():
+            if value == 0:
+                continue
             player_targeted = Player.query.get(key)
             potential_target = Action.query.filter_by(
                     origin_id = player.id,
@@ -313,15 +314,24 @@ def console(gameid):
         return redirect(url_for('gamepage', gameid = game_id))
     target_form_fields = []
     fire_form_fields = []
+    target_form_info = []
+    fire_form_info = []
     for field in form:
         if field.name.startswith("target"):
             target_form_fields.append(field)
+            target_form_info.append(None) # can be used to display stuff next to powers in the console
         elif field.name.startswith("fire"):
             fire_form_fields.append(field)
+            potential_target = Action.query.filter_by(
+                type="target",
+                origin=player,
+                dest_id=field.name[-1],
+                end_turn=game.turn).first()
+            fire_form_info.append("{} Targets".format((potential_target.count if potential_target is not None else 0))) 
     #target_form_fields = islice(target_form.__iter__(), 0, len(game.players))
     #fire_form_fields = islice(fire_form.__iter__(), 0, len(game.players))
-    player_table_target = zip(game.players, target_form_fields)
-    player_table_fire = zip(game.players, fire_form_fields)
+    player_table_target = zip(game.players, target_form_fields, target_form_info)
+    player_table_fire = zip(game.players, fire_form_fields, fire_form_info)
     return render_template('console.html', console_form=form, player=player, game=game, player_table_target=player_table_target, player_table_fire = player_table_fire)
 
 

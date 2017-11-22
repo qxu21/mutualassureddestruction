@@ -1,6 +1,4 @@
 {% extends 'base.html' %}
-{% block head %}
-{% endblock %}
 {% block content %}
 <form method="post" name="composemessage">
     {{ form.hidden_tag() }}
@@ -20,7 +18,7 @@
             {{ dest.name }}<br />
             {% endfor %}
             {% else %}
-            --- {#change#}
+            {{ player.name }}
             {% endif %}
         </td>
         <td>Subject: {{ message.subject }}</td>
@@ -34,5 +32,4 @@
 {% endfor %}
 <script type="text/javascript" src="{{ url_for('.static',filename='js/messages.js') }}"></script>
 {% endblock %}
-
 

@@ -1,6 +1,6 @@
 TODO:
 
-Client side:
+Frontend:
 
 -landing page DONE
 -login page DONE
@@ -15,6 +15,10 @@ Client side:
 -render several errors per form field, not just the first
 -write tests for malconstructed usernames/emails/passwords/message input
 -find out how to throw form erros without wiping form
+-make game more intuitive
+	-columsn of checkboxes for targeting?
+-allow monospacing?
+-show targets
 
 
 Backend:
@@ -36,20 +40,21 @@ Backend:
 -maybe add a join game button to game pages themselves?
 
 Things that have to be done, but can be delayed until after alpha launch:
+-blog?
 -fix the redirects on /newgame
 -paginate spectate/joingames pages
 -newgame functionality for everyone-implement limit to halt spam and dead games
 -game limit per user
 -captcha and/or email verification for registration
--publicly accessible archive - this entails oldgame and oldaction tables, most likely
--possible premium features
--better aesthetic :P
 
 
 Potential Future Things:
 -make CSS not bad?
 -allow themes
 -maybe some ajax
+-publicly accessible archive - this entails oldgame and oldaction tables, most likely
+-possible premium features
+-better aesthetic :P
 
 Ideas:
 -oracle mode: introduce chance into the game

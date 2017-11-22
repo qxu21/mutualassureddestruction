@@ -5,3 +5,27 @@ UPDATE 1: admin_game1 launched 2 missiles at x___d.
 UPDATE 1: x___d deployed 2 shields to protect x___d.
 UPDATE 1: In total, 2 shields were deployed to protect x___d from admin_game1.
 UPDATE 1: admin_game1 landed 0 missile strikes on x___d.
+UPDATE 1: Kill all humans launched 1 missiles at rohanv23.
+UPDATE 1: In total, 0 shields were deployed to protect rohanv23 from Kill all humans.
+UPDATE 1: Kill all humans landed 1 missile strikes on rohanv23.
+UPDATE 1: Kill all humans launched 1 missiles at Kill all humans.
+UPDATE 1: rohanv23 deployed 1 shields to protect Kill all humans.
+UPDATE 1: Kill all humans deployed 2 shields to protect Kill all humans.
+UPDATE 1: In total, 3 shields were deployed to protect Kill all humans from Kill all humans.
+UPDATE 1: Kill all humans landed 0 missile strikes on Kill all humans.
+UPDATE 1: admin_2 launched 1 missiles at admin_lad_1.
+UPDATE 1: rohanv23 deployed 1 shields to protect admin_lad_1.
+UPDATE 1: In total, 1 shields were deployed to protect admin_lad_1 from admin_2.
+UPDATE 1: admin_2 landed 0 missile strikes on admin_lad_1.
+UPDATE 1: admin_2 launched 1 missiles at rohanv23.
+UPDATE 1: In total, 0 shields were deployed to protect rohanv23 from admin_2.
+UPDATE 1: admin_2 landed 1 missile strikes on rohanv23.
+UPDATE 2: admin_2 launched 2 missiles at rohanv23.
+UPDATE 2: In total, 0 shields were deployed to protect rohanv23 from admin_2.
+UPDATE 2: admin_2 landed 2 missile strikes on rohanv23.
+UPDATE 3: Kill all humans launched 2 missiles at admin_2.
+UPDATE 3: In total, 0 shields were deployed to protect admin_2 from Kill all humans.
+UPDATE 3: Kill all humans landed 2 missile strikes on admin_2.
+UPDATE 3: admin_2 launched 2 missiles at Kill all humans.
+UPDATE 3: In total, 0 shields were deployed to protect Kill all humans from admin_2.
+UPDATE 3: admin_2 landed 2 missile strikes on Kill all humans.

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% macro render_console_form(player_table) %}
 <table class="tables">
-    {% for player, formfield in player_table %}
+    {% for player, formfield, info in player_table %}
     <tr>
         <td>{{ player.name }}</td>
-        <td>{{ formfield }}</td>
-        <td>{% for error in formfield.errors %}
+        <td>{{ formfield(size=5) }}</td>
+        <td>{% if info != None %}{{ info }}{% endif %}{% for error in formfield.errors %}
             {{ error }}
             <br />
             {% endfor %}

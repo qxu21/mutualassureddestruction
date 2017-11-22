@@ -21,7 +21,7 @@
                                 <a href="#"><p>About</p></a>
                                 <div class="spacer"></div>
                                 {% if g.user.is_authenticated %}
-                                <p>Hello, {{ g.user.username }}</p>
+                                <p style="flex: auto;">Hello, {{ g.user.username }}</p>
                                 <a href="{{ url_for('games') }}"><p>Games</p></a>
                                 <a href="{{ url_for('logout') }}"><p>Logout</p></a>
                                 {% else %}
@@ -37,13 +37,6 @@
                         {% endfor %}
                         {% endif %}
                         {% endwith %}
-                        {#% if form %}
-                        {% for errorlist in form.errors.values() %}
-                        {% for error in errorlist %} { double for loop...:/ }
-                        <p class="error">{{ error }}</p>
-                        {% endfor %}
-                        {% endfor %}
-                        {% endif %#}
 			{% block content %}{% endblock %}
 		</div>
 	</body>
