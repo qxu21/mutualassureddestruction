@@ -102,6 +102,9 @@ def joingame(gameid):
         game = Game.query.get(game_id)
         if Player.query.filter_by(user_id=current_user.id, game_id=game_id).first():
             return redirect(url_for('gamepage', gameid = game.id))
+        elif Player.query.filter_by(name = form.playername.data).first():
+            flash("That player name's already been taken!")
+            return redirect(url_for('joingame', gameid = gameid))
         newplayer = Player(
                 number=len(game.players),
                 name = form.playername.data, #scan for obscenities

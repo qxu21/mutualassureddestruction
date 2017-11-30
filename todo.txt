@@ -19,6 +19,8 @@ Frontend:
 	-columsn of checkboxes for targeting?
 -allow monospacing?
 -show targets
+-register errors shove entire form to left
+-maybe add min width/height to body
 
 
 Backend:
