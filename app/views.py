@@ -48,7 +48,7 @@ def register():
     if form.validate_on_submit():
         #validate username
         #also validate email
-        if User.query.filter_by(username=form.username.data).first():           
+        if User.query.filter_by(username=form.username.data).first():
             #username was not unique, so bounce
             flash("This username already exists, pick a different one!")
             return redirect(url_for('register'))
@@ -96,7 +96,7 @@ def gamepage(gameid):
 def joingame(gameid):
     game_id = int_404(gameid)
     form = JoinGameForm()
-    if Player.query.filter_by(user_id=current_user.id, game_id=game_id).first():
+    if Player.query.filter_by(user_id=current_user.id, game_id=game_id).first() or Game.query.get(game_id).turn != 0:
         return redirect(url_for('gamepage', gameid = gameid))
     if form.validate_on_submit():
         game = Game.query.get(game_id)
