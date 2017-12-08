@@ -1,0 +1,27 @@
+UPDATE 1: testplayer1 deployed 2 shields to protect testplayer2
+UPDATE 1: testplayer1 deployed 2 shields to protect testplayer2
+UPDATE 1: testplayer3 deployed 1 shields to protect testplayer2
+UPDATE 1: testplayer1 deployed 2 shields to protect testplayer2
+UPDATE 1: testplayer3 deployed 1 shields to protect testplayer2
+UPDATE 1: testplayer1 launched 2 missiles at testplayer2.
+UPDATE 1: All the missiles that testplayer1 fired at testplayer2 were blocked by shields. 1 shields remain on testplayer2.
+UPDATE 1: testplayer3 launched 2 missiles at testplayer2.
+UPDATE 1: 1 of the missiles shot at testplayer2 by testplayer3 were blocked by shields. 1 strikes were landed.
+UPDATE 1: testplayer2 launched 2 missiles at testplayer3.
+UPDATE 1: No shields are protecting testplayer3 from testplayer2: 2 strikes were landed.
+UPDATE 1: testplayer1 deployed 2 shields to protect testplayer2
+UPDATE 1: testplayer3 deployed 1 shields to protect testplayer2
+UPDATE 1: testplayer1 launched 2 missiles at testplayer2.
+UPDATE 1: All the missiles that testplayer1 fired at testplayer2 were blocked by shields. 1 shields remain on testplayer2.
+UPDATE 1: testplayer3 launched 2 missiles at testplayer2.
+UPDATE 1: 1 of the missiles shot at testplayer2 by testplayer3 were blocked by shields. 1 strikes were landed.
+UPDATE 1: testplayer2 launched 2 missiles at testplayer3.
+UPDATE 1: No shields are protecting testplayer3 from testplayer2: 2 strikes were landed.
+UPDATE 1: testplayer1 deployed 2 shields to protect testplayer2
+UPDATE 1: testplayer3 deployed 1 shields to protect testplayer2
+UPDATE 1: testplayer1 launched 2 missiles at testplayer2.
+UPDATE 1: All the missiles that testplayer1 fired at testplayer2 were blocked by shields. 1 shields remain on testplayer2.
+UPDATE 1: testplayer3 launched 2 missiles at testplayer2.
+UPDATE 1: 1 of the missiles shot at testplayer2 by testplayer3 were blocked by shields. 1 strikes were landed.
+UPDATE 1: testplayer2 launched 2 missiles at testplayer3.
+UPDATE 1: No shields are protecting testplayer3 from testplayer2: 2 strikes were landed.

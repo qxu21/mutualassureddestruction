@@ -1,0 +1,23 @@
+UPDATE 1: 2x testplayer1 -| testplayer2
+UPDATE 1: 1x testplayer3 -| testplayer2
+UPDATE 1: ---
+UPDATE 1: 0x testplayer1 ||
+UPDATE 1: 3x testplayer2 ||
+UPDATE 1: 0x testplayer3 ||
+UPDATE 1: 0x testplayer4 ||
+UPDATE 1: ---
+UPDATE 1: 2x testplayer1 -> testplayer2
+UPDATE 1: 3x testplayer2 ||
+UPDATE 1: 0x testplayer1 -X testplayer2
+UPDATE 1: 2x testplayer1 -( testplayer2
+UPDATE 1: 1x testplayer2 ||
+UPDATE 1: ---
+UPDATE 1: 2x testplayer3 -> testplayer2
+UPDATE 1: 1x testplayer2 ||
+UPDATE 1: 1x testplayer3 -( testplayer2
+UPDATE 1: 1x testplayer3 -X testplayer2
+UPDATE 1: ---
+UPDATE 1: 2x testplayer2 -> testplayer3
+UPDATE 1: 0x testplayer3 ||
+UPDATE 1: 2x testplayer2 -X testplayer3
+UPDATE 1: ---

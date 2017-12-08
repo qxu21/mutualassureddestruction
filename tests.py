@@ -5,6 +5,7 @@ import os
 from config import basedir
 from app import app, db, bcrypt
 from app.models import User, Player, Game, Action
+from update import minor_update, major_update
 
 class Tests(unittest.TestCase):
     def setUp(self):
@@ -89,10 +90,10 @@ class ConsoleTests(Tests):
     def test_noninteger_input(self):
         submission = self.app.post('/console/1', data=dict(
             target_player_1="x"), follow_redirects=True)
-        self.assertIn(b'Integer needed!', submission.data)
+        self.assertIn(b'Positive integer needed!', submission.data)
         submission2 = self.app.post('/console/1', data=dict(
             fire_player_2="x"), follow_redirects=True)
-        self.assertIn(b'Integer needed!', submission2.data)
+        self.assertIn(b'Positive integer needed!', submission2.data)
         
 
     def test_high_input(self):
@@ -103,28 +104,121 @@ class ConsoleTests(Tests):
             fire_player_2="10000"), follow_redirects=True)
         self.assertIn(b'You tried to fire 10000 missiles', submission2.data)
 
-    def test_action_commit(self):
+    def test_attack_commit(self):
         submission = self.app.post('/console/1', data=dict(
             target_player_1="1",
             target_player_2="1",
             fire_player_1="1",
             fire_player_2="1"), follow_redirects=True)
-        self.assertIsNotNone(Action.query.filter_by(
-            type="target",
-            game_id=1,
-            origin=1,
-            dest=1,
-            start_turn=0,
-            end_turn=1,
-            count=1).first())
-        self.assertIsNotNone(Action.query.filter_by(
+        for action in Action.query.all():
+            if action.type in ("fire", "target"):
+                self.assertEqual(action.origin.name, "testplayer1")
+                self.assertEqual(action.count, 1)
+                self.assertEqual(action.start_turn, 0)
+                self.assertEqual(action.end_turn, 1)
+                self.assertIn(action.dest.name, ("testplayer1", "testplayer2"))
+
+class UpdateTests(Tests):
+    def setUp(self):
+        super().setUp()
+        for w in range(1, 5):
+            db.session.add(User(
+                id=w,
+                username="testuser{}".format(w),
+                email="testuser{}@example.com".format(w)))
+            # beware, they have no passwords, don't try logging in
+        db.session.commit()
+        for x in range(1, 3):
+            game = Game(
+                id=x,
+                name="testgame{}".format(x),
+                type="Beta",
+                turn=0,
+                phase="Preliminary")
+            db.session.add(game)
+            db.session.commit()
+            for y in range(1, 5):
+                user = User.query.filter_by(username="testuser{}".format(y)).first()
+                self.assertIsNotNone(user)
+                player = Player(
+                    number=y,
+                    name="testplayer{}".format(y),
+                    committed=False,
+                    user_id=user.id,
+                    game_id=game.id,
+                    type="Power",
+                    attackpower = 2,
+                    defensepower = 2,
+                    destruction = 0)
+                game.players.append(player)
+                db.session.add(player)
+            db.session.add(game)
+            db.session.commit()
+
+    def test_one_turn(self):
+        game = Game.query.get(1)
+        # no use testing targets since those are taken care of by the console
+        # 2x 1 -> 2
+        # 2x 3 -> 2
+        # 2x 2 -> 3
+        # 2x 1 -| 2
+        # 1x 3 -| 2
+        # ->
+        # 1x -X 2
+        # 2x -X 3
+        # hey look this helped me write rlogger
+        game.turn = 1
+        db.session.add(game)
+        db.session.add(Action(
             type="fire",
             game_id=1,
-            origin=1,
-            dest=1,
-            start_turn=0,
-            end_turn=1,
-            count=1).first())
+            origin_id=1,
+            dest_id=2,
+            start_turn=game.turn,
+            end_turn=game.turn+1,
+            count=2))
+        db.session.add(Action(
+            type="fire",
+            game_id=1,
+            origin_id=3,
+            dest_id=2,
+            start_turn=game.turn,
+            end_turn=game.turn+1,
+            count=2))
+        db.session.add(Action(
+            type="fire",
+            game_id=1,
+            origin_id=2,
+            dest_id=3,
+            start_turn=game.turn,
+            end_turn=game.turn+1,
+            count=2))
+        db.session.add(Action(
+            type="shield",
+            game_id=1,
+            origin_id=1,
+            dest_id=2,
+            start_turn=game.turn,
+            end_turn=game.turn + 1,
+            count=2))
+        db.session.add(Action(
+            type="shield",
+            game_id=1,
+            origin_id=3,
+            dest_id=2,
+            start_turn=game.turn,
+            end_turn=game.turn + 1,
+            count=1))
+        db.session.commit()
+        major_update()
+        self.assertEqual(Player.query.get(2).destruction, 1)
+        self.assertEqual(Player.query.get(3).destruction, 2)
+
+
+
+                
+
+
 
 
 
