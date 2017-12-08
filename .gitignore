@@ -6,7 +6,11 @@
 __pycache__/
 
 # no gamelogs
-game_log_?.txt
+game_log_*.txt
+robotic_game_log_*.txt
 
 # no libraries
 flask/
+
+# no git directory
+mutualassureddestruction.git/
